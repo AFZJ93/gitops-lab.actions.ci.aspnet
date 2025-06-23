@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      configuration: Release 
+      configuration: release
 
     steps:
       - name: Checkout Sources
@@ -26,14 +26,12 @@ jobs:
         run: dotnet restore
 
       - name: Build
-        run: dotnet build --no-restore
-
+        run: dotnet build --no-restore  --configuration ${{ env.configuration }}
       - name: Test
-        run: dotnet test --no-build --verbosity normal
+        run: dotnet test --no-build --verbosity normal --configuration ${{ env.configuration }}
 
-      - name: Publish
-        run: dotnet publish ./YourProjectFolder/YourProject.csproj --configuration ${{ env.configuration }} --output ${{ runner.temp }}/artifact
-
+      - name: Publish 
+        run: dotnet publish --configuration ${{ env.configuration }} --output ${{runner.temp }}/artifact
       - name: Upload the build artifact
         uses: actions/upload-artifact@v4
         with: 
