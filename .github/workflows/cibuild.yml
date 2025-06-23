@@ -10,11 +10,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      configuration: Release 
+
     steps:
-      # checkout all sources from git
       - name: Checkout Sources
         uses: actions/checkout@v4
-      # install dotnet SDK
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v1
         with:
@@ -30,7 +32,8 @@ jobs:
         run: dotnet test --no-build --verbosity normal
 
       - name: Publish
-        run: dotnet publish --configuration ${{ env.configuration }} --output ${{ runner.temp }}/artifact
+        run: dotnet publish ./YourProjectFolder/YourProject.csproj --configuration ${{ env.configuration }} --output ${{ runner.temp }}/artifact
+
       - name: Upload the build artifact
         uses: actions/upload-artifact@v4
         with: 
